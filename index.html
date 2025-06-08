@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>The Notebook</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --green-light: #e8f5e9;
+      --green-sage: #82b29a;
+      --green-dark: #4a7c59;
+      --white: #ffffff;
+      --beige: #f9f9f6;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Playfair Display', serif;
+      background-color: var(--beige);
+      color: #333;
+    }
+
+    header {
+      text-align: center;
+      padding: 90px 20px 50px;
+      background: linear-gradient(to bottom, var(--green-light), transparent);
+    }
+
+    header h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 72px;
+      color: var(--green-dark);
+      margin: 0 0 16px;
+      letter-spacing: 2px;
+      word-spacing: 6px;
+    }
+
+    header p {
+      font-size: 16px;
+      color: #666;
+      max-width: 500px;
+      margin: 0 auto;
+      font-style: italic;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .note-card {
+      background: var(--white);
+      border: none;
+      border-radius: 18px;
+      padding: 28px 22px;
+      text-align: center;
+      text-decoration: none;
+      color: #333;
+      transition: all 0.3s ease;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .note-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.12);
+    }
+
+    .note-card h2 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 30px;
+      color: var(--green-dark);
+      margin-bottom: 10px;
+    }
+
+    .note-card p {
+      font-size: 15px;
+      color: #555;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 14px;
+      color: #aaa;
+      padding: 40px 20px;
+    }
+
+    #password-section {
+      text-align: center;
+      padding: 100px 20px;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    .password-heading {
+      font-family: 'Great Vibes', cursive;
+      font-size: 42px;
+      color: var(--green-dark);
+      margin-bottom: 20px;
+    }
+
+    #password-section input {
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      width: 260px;
+      margin-top: 10px;
+      font-family: 'Playfair Display', serif;
+    }
+
+    #password-section button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: var(--green-dark);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    #error-message {
+      color: red;
+      font-style: italic;
+      margin-top: 12px;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 48px;
+        letter-spacing: 1.5px;
+        word-spacing: 4px;
+      }
+
+      .note-card {
+        padding: 22px 18px;
+      }
+
+      .note-card h2 {
+        font-size: 24px;
+      }
+
+      #password-section input {
+        width: 200px;
+      }
+
+      .password-heading {
+        font-size: 34px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>The Notebook</h1>
+    <p>your own notebook from me</p>
+  </header>
+
+  <!-- Password Gate -->
+  <div id="password-section">
+    <h2 class="password-heading">Please enter the password to view the letters</h2>
+    <input type="password" id="passwordInput" placeholder="Enter password" />
+    <button onclick="checkPassword()">Submit</button>
+    <div id="error-message"></div>
+  </div>
+
+  <!-- Hidden content -->
+  <div class="container" style="display:none;">
+    <a href="letter1.html" class="note-card">
+      <h2>May 25, 2025</h2>
+      <p>Thoughts</p>
+    </a>
+
+    <a href="letter2.html" class="note-card">
+      <h2>May 21, 2025</h2>
+      <p>Not Really Sure</p>
+    </a>
+
+    <a href="letter3.html" class="note-card">
+      <h2>May 24, 2025</h2>
+      <p>Decision</p>
+    </a>
+  </div>
+
+  <footer style="display:none;">
+    &copy; 2025 Letters Project — All words meant to be felt.
+  </footer>
+
+  <script>
+  const passwordSection = document.getElementById("password-section");
+  const container = document.querySelector(".container");
+  const footer = document.querySelector("footer");
+
+  // Check sessionStorage when the page loads
+  window.onload = function () {
+    if (sessionStorage.getItem("access_granted") === "true") {
+      showLetters();
+    }
+  };
+
+  function checkPassword() {
+    const input = document.getElementById("passwordInput").value.trim().toLowerCase();
+    const correct = "alpacino";
+    const errorDiv = document.getElementById("error-message");
+
+    if (input === correct) {
+      sessionStorage.setItem("access_granted", "true");
+      showLetters();
+    } else {
+      errorDiv.textContent = "Incorrect password. Please try again.";
+    }
+  }
+
+  function showLetters() {
+    passwordSection.style.display = "none";
+    container.style.display = "grid";
+    footer.style.display = "block";
+  }
+</script>
+
+</body>
+</html>
