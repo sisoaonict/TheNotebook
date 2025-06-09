@@ -3,234 +3,354 @@
 <head>
   <meta charset="UTF-8" />
   <title>The Notebook</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&amp;family=Playfair+Display:wght@400;700&amp;display=swap" rel="stylesheet" />
   <style>
     :root {
-      --green-light: #e8f5e9;
-      --green-sage: #82b29a;
-      --green-dark: #4a7c59;
-      --white: #ffffff;
-      --beige: #f9f9f6;
+      --primary-color: #ac1d29; /* Deep green, nature-inspired */
+      --background-color: #ffffff;
+      --text-heading-color: #a52626;
+      --text-body-color: #6b7280;
+      --card-bg-color: rgba(255, 253, 253, 0.85);
+      --border-radius: 0.75rem;
+      --shadow-light: rgba(0, 0, 0, 0.05);
+      --shadow-hover: rgba(0, 0, 0, 0.12);
+      --transition-speed: 0.3s;
+      --font-heading: 'Great Vibes', cursive;
+      --font-body: 'Playfair Display', serif;
     }
 
-    * {
+    /* Reset */
+    *, *::before, *::after {
       box-sizing: border-box;
-    }
-
-    body {
       margin: 0;
-      font-family: 'Playfair Display', serif;
-      background-color: var(--beige);
-      color: #333;
+      padding: 0;
     }
 
-    header {
-      text-align: center;
-      padding: 90px 20px 50px;
-      background: linear-gradient(to bottom, var(--green-light), transparent);
+    html, body {
+      height: 100%;
+      font-family: var(--font-body);
+      background-color: var(--background-color);
+      color: var(--text-body-color);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
+body 
 
-    header h1 {
-      font-family: 'Great Vibes', cursive;
-      font-size: 72px;
-      color: var(--green-dark);
-      margin: 0 0 16px;
-      letter-spacing: 2px;
-      word-spacing: 6px;
-    }
-
-    header p {
-      font-size: 16px;
-      color: #666;
-      max-width: 500px;
-      margin: 0 auto;
-      font-style: italic;
-    }
-
+    /* Container to hold content, cards */
     .container {
-      max-width: 1100px;
-      margin: 40px auto;
-      padding: 0 20px;
+      position: relative;
+      z-index: 10;
+      max-width: 1200px;
+      margin: 40px auto 80px;
+      background: var(--card-bg-color);
+      border-radius: var(--border-radius);
+      box-shadow: 0 8px 24px var(--shadow-light);
+      padding: 40px 50px;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 24px;
     }
 
-    .note-card {
-      background: var(--white);
-      border: none;
-      border-radius: 18px;
-      padding: 28px 22px;
+    header {
+      position: relative;
+      z-index: 10;
+      max-width: 1200px;
+      margin: 100px auto 40px;
       text-align: center;
-      text-decoration: none;
-      color: #333;
-      transition: all 0.3s ease;
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
     }
 
-    .note-card:hover {
+    header h1 {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 64px;
+      letter-spacing: 0.13em;
+      color: var(--primary-color);
+      margin-bottom: 12px;
+      user-select: text;
+      text-shadow: 1px 1px 3px rgba(92, 15, 15, 0.289);
+    }
+
+    header p {
+      font-size: 20px;
+      color: var(--text-body-color);
+      font-style: italic;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.4;
+      user-select: text;
+    }
+
+    .note-card {
+      background: var(--background-color);
+      border-radius: var(--border-radius);
+      padding: 32px 28px;
+      text-align: center;
+      color: var(--text-heading-color);
+      box-shadow: 0 8px 16px var(--shadow-light);
+      transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+      border: 1px solid transparent;
+    }
+
+    .note-card:hover,
+    .note-card:focus-visible {
       transform: translateY(-6px);
-      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 16px 32px var(--shadow-hover);
+      border-color: var(--primary-color);
+      outline-offset: 3px;
+      outline: 2px solid var(--primary-color);
+      transition: box-shadow var(--transition-speed), border-color var(--transition-speed), outline var(--transition-speed);
     }
 
     .note-card h2 {
-      font-family: 'Great Vibes', cursive;
-      font-size: 30px;
-      color: var(--green-dark);
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 34px;
+      color: var(--primary-color);
       margin-bottom: 10px;
+      user-select: text;
     }
 
     .note-card p {
-      font-size: 15px;
-      color: #555;
-    }
-
-    footer {
-      text-align: center;
-      font-size: 14px;
-      color: #aaa;
-      padding: 40px 20px;
+      font-size: 16px;
+      color: var(--text-body-color);
+      user-select: text;
+      font-style: italic;
     }
 
     #password-section {
+      max-width: 600px;
+      margin: 40px auto 80px;
+      background: var(--card-bg-color);
+      border-radius: var(--border-radius);
+      box-shadow: 0 8px 24px var(--shadow-light);
+      padding: 60px 40px;
       text-align: center;
-      padding: 100px 20px;
-      animation: fadeIn 2s ease-in-out;
+      position: relative;
+      z-index: 10;
     }
 
     .password-heading {
-      font-family: 'Great Vibes', cursive;
-      font-size: 42px;
-      color: var(--green-dark);
-      margin-bottom: 20px;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 48px;
+      color: var(--primary-color);
+      margin-bottom: 32px;
+      letter-spacing: 0.1em;
+      user-select: text;
+      text-shadow: 0 1px 2px rgba(234, 34, 34, 0.5);
     }
 
     #password-section input {
-      padding: 12px;
-      font-size: 16px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      width: 260px;
-      margin-top: 10px;
-      font-family: 'Playfair Display', serif;
+      font-family: var(--font-body);
+      font-size: 18px;
+      padding: 14px 16px;
+      width: 100%;
+      max-width: 320px;
+      border-radius: var(--border-radius);
+      border: 1px solid #cbd5e0;
+      transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+      color: var(--text-heading-color);
+      box-sizing: border-box;
+      background: transparent;
+      outline-offset: 2px;
     }
-
+    #password-section input:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 5px var(--primary-color);
+      outline: none;
+      background: #f6f1f2;
+    }
     #password-section button {
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: var(--green-dark);
-      color: white;
+      font-weight: 600;
+      font-size: 18px;
+      background-color: var(--primary-color);
+      color: #fff;
       border: none;
-      border-radius: 6px;
+      border-radius: var(--border-radius);
+      padding: 14px 36px;
+      margin-left: 16px;
       cursor: pointer;
-      margin-left: 10px;
+      user-select: none;
+      transition: background-color var(--transition-speed);
+      box-shadow: 0 4px 8px rgba(197, 23, 23, 0.3);
+      font-family: var(--font-body);
+    }
+    #password-section button:hover,
+    #password-section button:focus-visible {
+      background-color: #cf1a20;
+      outline: none;
+      box-shadow: 0 5px 12px rgba(183, 18, 29, 0.6);
     }
 
     #error-message {
-      color: red;
+      color: #B91C1C;
       font-style: italic;
-      margin-top: 12px;
+      margin-top: 18px;
+      min-height: 1.2em;
+      user-select: none;
+    }
+
+    footer {
+      max-width: 1200px;
+      margin: 0 auto 40px;
+      font-size: 14px;
+      text-align: center;
+      color: #d02626;
+      user-select: none;
+      position: relative;
+      z-index: 10;
+    }
+
+    footer::before {
+      content: '';
+      display: block;
+      margin: 0 auto 12px;
+      width: 48px;
+      height: 2px;
+      background: var(--primary-color);
+      border-radius: 1px;
     }
 
     @keyframes fadeIn {
-      0% { opacity: 0; transform: translateY(20px); }
-      100% { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 640px) {
       header h1 {
-        font-size: 48px;
-        letter-spacing: 1.5px;
-        word-spacing: 4px;
+        font-size: 42px;
       }
-
-      .note-card {
-        padding: 22px 18px;
-      }
-
-      .note-card h2 {
-        font-size: 24px;
-      }
-
-      #password-section input {
-        width: 200px;
-      }
-
       .password-heading {
         font-size: 34px;
+      }
+      #password-section input {
+        max-width: 100%;
+      }
+      #password-section button {
+        margin-left: 0;
+        margin-top: 16px;
+        width: 100%;
+      }
+      .container {
+        padding: 30px 20px;
+      }
+      .note-card h2 {
+        font-size: 28px;
       }
     }
   </style>
 </head>
 <body>
-
   <header>
     <h1>The Notebook</h1>
     <p>your own notebook from me</p>
   </header>
 
-  <!-- Password Gate -->
-  <div id="password-section">
-    <h2 class="password-heading"></h2>
-    <input type="password" id="passwordInput" placeholder="Enter password" />
-    <button onclick="checkPassword()">Submit</button>
-    <div id="error-message"></div>
-  </div>
+  <!-- Password Section -->
+  <section id="password-section" aria-labelledby="password-heading">
+    <h2 id="password-heading" class="password-heading"></h2>
+    <input type="password" id="passwordInput" placeholder="Enter password" aria-describedby="error-message" aria-invalid="false" />
+    <button id="submitBtn" type="button">Submit</button>
+    <div id="error-message" role="alert" aria-live="assertive"></div>
+  </section>
 
-  <!-- Hidden content -->
-  <div class="container" style="display:none;">
-    <a href="letter1.html" class="note-card">
+  <!-- Notes container (hidden initially) -->
+  <main class="container" style="display:none;" aria-label="Letters list">
+    <a href="letter1.html" class="note-card" tabindex="0">
       <h2>May 10, 2025</h2>
       <p>Thoughts</p>
     </a>
-
-    <a href="letter2.html" class="note-card">
+    <a href="letter2.html" class="note-card" tabindex="0">
       <h2>May 21, 2025</h2>
       <p>Not Really Sure</p>
     </a>
-
-    <a href="letter3.html" class="note-card">
+    <a href="letter3.html" class="note-card" tabindex="0">
       <h2>May 24, 2025</h2>
       <p>Decision</p>
     </a>
-  </div>
+        <a href="letter4.html" class="note-card" tabindex="0">
+      <h2>May 26, 2025</h2>
+      <p></p>
+    </a>
+        <a href="letter5.html" class="note-card" tabindex="0">
+      <h2>May 29, 2025</h2>
+      <p>.</p>
+    </a>
+        <a href="letter6.html" class="note-card" tabindex="0">
+      <h2>Jun 1, 2025</h2>
+      <p>.</p>
+    </a>
+        <a href="letter7.html" class="note-card" tabindex="0">
+      <h2>Jun 5, 2025</h2>
+      <p>.</p>
+    </a>
+        <a href="letter8.html" class="note-card" tabindex="0">
+      <h2>Jun 8, 2025</h2>
+      <p>.</p>
+    </a>
+  </main>
 
   <footer style="display:none;">
-    &copy; <3
+    &copy; I haven't put everything yet
+
   </footer>
 
   <script>
-  const passwordSection = document.getElementById("password-section");
-  const container = document.querySelector(".container");
-  const footer = document.querySelector("footer");
+    const passwordSection = document.getElementById("password-section");
+    const container = document.querySelector(".container");
+    const footer = document.querySelector("footer");
+    const passwordInput = document.getElementById("passwordInput");
+    const errorMessage = document.getElementById("error-message");
+    const submitBtn = document.getElementById("submitBtn");
+    const correctPassword = "alpacino";
 
-  // Check sessionStorage when the page loads
-  window.onload = function () {
-    if (sessionStorage.getItem("access_granted") === "true") {
-      showLetters();
+    window.addEventListener('DOMContentLoaded', () => {
+      if (sessionStorage.getItem("access_granted") === "true") {
+        showLetters();
+      }
+    });
+
+    submitBtn.addEventListener('click', checkPassword);
+    passwordInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        checkPassword();
+      }
+    });
+
+    function checkPassword() {
+      const input = passwordInput.value.trim().toLowerCase();
+      if (input === correctPassword) {
+        sessionStorage.setItem("access_granted", "true");
+        errorMessage.textContent = "";
+        passwordInput.setAttribute("aria-invalid", "false");
+        showLetters();
+      } else {
+        errorMessage.textContent = "Incorrect password. Please try again.";
+        passwordInput.setAttribute("aria-invalid", "true");
+        passwordInput.focus();
+      }
     }
-  };
 
-  function checkPassword() {
-    const input = document.getElementById("passwordInput").value.trim().toLowerCase();
-    const correct = "alpacino";
-    const errorDiv = document.getElementById("error-message");
-
-    if (input === correct) {
-      sessionStorage.setItem("access_granted", "true");
-      showLetters();
-    } else {
-      errorDiv.textContent = "Incorrect password. Please try again.";
+    function showLetters() {
+      passwordSection.style.display = "none";
+      container.style.display = "grid";
+      footer.style.display = "block";
     }
-  }
-
-  function showLetters() {
-    passwordSection.style.display = "none";
-    container.style.display = "grid";
-    footer.style.display = "block";
-  }
-</script>
-
+  </script>
 </body>
 </html>
